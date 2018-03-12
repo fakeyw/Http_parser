@@ -14,6 +14,16 @@ User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:59.0) Gecko/20100101 Fi
 
 c=3&d=4'''
 
+http_text = '''GET / HTTP/1.1
+Host: 127.0.0.1:8989
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:49.0) Gecko/20100101 Firefox/49.0 Light/49.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+DNT: 1
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+'''
 r = P.parse(http_text)
 print('\nrequest info:\n'+r.__str__())
 

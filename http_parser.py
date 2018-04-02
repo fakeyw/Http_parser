@@ -19,17 +19,17 @@ class Http_parser(object):
 		data = dict()
 		
 		try:
-			print(raw_text)
-			front,raw_data = raw_text.split('\r\n\r\n')
+			#print(raw_text)
+			front,raw_data = raw_text.decode('utf-8').split('\r\n\r\n')
 			for i in raw_data.split('&'):
 				k,v = i.split('=')
 				data[k] = v
 		except ValueError as e: #no post data
-			front = raw_text
-		print(compiler.findall(front)[0])
+			front = raw_text.decode('utf-8')
+		#print(compiler.findall(front)[0])
 		method,url,raw_args,version,raw_headers = compiler.findall(front)[0]
 		if raw_args != '':
-			print('arg:',raw_args)
+			#print('arg:',raw_args)
 			for i in raw_args.split('&'):
 				k,v = i.split('=')
 				args[k] = v
@@ -67,9 +67,16 @@ class Http_parser(object):
 		
 		status_line = 'HTTP/1.1 {code} {msg}\n'.format(code=status_code,msg=status_msg)
 		head_info = ''.join([ '%s: %s\r\n' % (x,y) for (x,y) in list(headers.items())])
-		data = '\r\n'+text
 		
-		resp = status_line+head_info+data
+		resp = ''
+		if type(text) == str:
+			resp = status_line+head_info+'\r\n'+text
+			resp = resp.encode('utf-8')
+		else:
+			resp = status_line+head_info+'\r\n'
+			resp = resp.encode('utf-8')+text
+		
+		
 		return resp
 		
 	def url_split(self,url):
